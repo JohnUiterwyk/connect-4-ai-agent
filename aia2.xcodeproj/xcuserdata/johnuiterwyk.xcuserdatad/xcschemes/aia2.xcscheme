@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "51FF3A2919079FA900A0154C"
+               BlueprintIdentifier = "5190160E190E2CC100C69F0A"
                BuildableName = "aia2"
                BlueprintName = "aia2"
                ReferencedContainer = "container:aia2.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "51FF3A2919079FA900A0154C"
+            BlueprintIdentifier = "5190160E190E2CC100C69F0A"
             BuildableName = "aia2"
             BlueprintName = "aia2"
             ReferencedContainer = "container:aia2.xcodeproj">
@@ -48,15 +48,18 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <PathRunnable
+         FilePath = "/Users/johnuiterwyk/Google Drive/Rmit/ai/assigment 2/aia2/aia2/c4">
+      </PathRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "51FF3A2919079FA900A0154C"
+            BlueprintIdentifier = "5190160E190E2CC100C69F0A"
             BuildableName = "aia2"
             BlueprintName = "aia2"
             ReferencedContainer = "container:aia2.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -69,7 +72,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "51FF3A2919079FA900A0154C"
+            BlueprintIdentifier = "5190160E190E2CC100C69F0A"
             BuildableName = "aia2"
             BlueprintName = "aia2"
             ReferencedContainer = "container:aia2.xcodeproj">
