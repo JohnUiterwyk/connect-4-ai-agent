@@ -10,11 +10,12 @@
 #include "c4.h"
 
 extern double agent_random (Game_state *current_state, int player, int x, int y);
+extern double agent_s3406031 (Game_state *current_state, int player, int x, int y);
 extern double agent_simple (Game_state *current_state, int player, int x, int y);
 
 int count_agents()
 {
-   return 2;
+   return 3;
 }
 
 Agent **get_agents()
@@ -26,8 +27,12 @@ Agent **get_agents()
    funcs[0]->name = "random";
 
    funcs[1] = emalloc(sizeof(Agent));
-   funcs[1]->agentFunction = agent_simple;
-   funcs[1]->name = "simple";
+   funcs[1]->agentFunction = agent_s3406031;
+   funcs[1]->name = "s3406031";
+
+   funcs[2] = emalloc(sizeof(Agent));
+   funcs[2]->agentFunction = agent_simple;
+   funcs[2]->name = "simple";
 
    return funcs;
 }

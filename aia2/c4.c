@@ -40,7 +40,7 @@
 #include "c4.h"
 
 /* Uncomment the line below to show the mini-max score for each column */
-/* #define SHOW_COLUMN_SCORES */
+#define SHOW_COLUMN_SCORES 
 
 #define pop_state() \
         (current_state = &state_stack[--depth])

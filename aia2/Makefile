@@ -1,6 +1,6 @@
 
 CC=gcc
-CFLAGS=-Wall -pedantic -ansi -O2 -g 
+CFLAGS=-Wall -pedantic -ansi -g 
 LINKFLAGS=-lm
 
 c4: game.o c4.o c4_functions.o get_agents.o 
