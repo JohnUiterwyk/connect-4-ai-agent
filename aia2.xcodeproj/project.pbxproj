@@ -8,7 +8,6 @@
 
 /* Begin PBXFileReference section */
 		512CB6E51910D312002C9F39 /* agent_s3406031.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = agent_s3406031.c; sourceTree = "<group>"; };
-		512CB6E61910D86E002C9F39 /* test-agent.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "test-agent.sh"; sourceTree = "<group>"; };
 		51FF3A3919079FCB00A0154C /* agent_samples.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = agent_samples.c; sourceTree = "<group>"; };
 		51FF3A3A19079FCB00A0154C /* c4_functions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = c4_functions.c; sourceTree = "<group>"; };
 		51FF3A3B19079FCB00A0154C /* c4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = c4.c; sourceTree = "<group>"; };
@@ -38,7 +37,6 @@
 		51FF3A2C19079FA900A0154C /* aia2 */ = {
 			isa = PBXGroup;
 			children = (
-				512CB6E61910D86E002C9F39 /* test-agent.sh */,
 				51FF3A3919079FCB00A0154C /* agent_samples.c */,
 				51FF3A3A19079FCB00A0154C /* c4_functions.c */,
 				51FF3A3B19079FCB00A0154C /* c4.c */,
@@ -62,7 +60,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "/Users/johnuiterwyk/Google Drive/Rmit/ai/assigment 2/aia2/aia2";
+			buildWorkingDirectory = "/Users/johnuiterwyk/Git/rmit/rmit-ai-a2/aia2";
 			dependencies = (
 			);
 			name = aia2;
@@ -123,7 +121,7 @@
 		51FF3A3119079FA900A0154C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -161,7 +159,7 @@
 		51FF3A3219079FA900A0154C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

@@ -4,27 +4,45 @@
 #include <sys/time.h>
 
 
-/* Connect 4 agent by John Uiterwyk
+/* Connect 4 agent by John N. Uiterwyk
+ * all functions and types are prefaced by JNU to avoid name clashing
  * s3406031
  *
  */
 
-double agent_s3406031(Game_state *current_state, int player, int x, int y);
-double jnu_get_random_double();
-double jnu_heuristic_lines(Game_state *current_state, int player, int chip_count);
-double jnu_heuristic_playable_threats(Game_state *current_state, int player,int chip_count);
-double jnu_heuristic_double_threats(Game_state *current_state, int player, int x, int y);
-double jnu_heuristic_enemy_threat_created(Game_state *current_state, int player, int x, int y);
-double jnu_heuristic_claim_center(Game_state *current_state, int player, int x, int y);
-double jnu_heuristic_defense(Game_state *current_state, int player, int x, int y);
-int jnu_count_playable_threats(Game_state *current_state, int player,int chip_count);
-int jnu_get_num_lines_with_count(Game_state *current_state,int chip_count);
-int jnu_get_total_lines(Game_state *current_state);
+#ifndef JNU_ODD
+#define JNU_ODD 1
+#endif
 
+#ifndef JNU_EVEN
+#define JNU_EVEN 0
+#endif
+
+typedef struct {
+    int player;
+    int x;
+    int y;
+    int is_playable;
+    int even_odd;
+    
+}JNU_Threat;
+
+
+double agent_s3406031(Game_state *current_state, int player, int x, int y);
+double JNU_get_random_double();
+double JNU_heuristic_lines(Game_state *current_state, int player, int chip_count);
+double JNU_heuristic_playable_threats(Game_state *current_state, int player,int chip_count);
+double JNU_heuristic_double_threats(Game_state *current_state, int player, int x, int y);
+double JNU_heuristic_enemy_threat_created(Game_state *current_state, int player, int x, int y);
+double JNU_heuristic_claim_center(Game_state *current_state, int player, int x, int y);
+double JNU_heuristic_defense(Game_state *current_state, int player, int x, int y);
+int JNU_count_playable_threats(Game_state *current_state, int player,int chip_count);
+int JNU_get_num_lines_with_count(Game_state *current_state,int chip_count);
+int JNU_get_total_lines(Game_state *current_state);
 
 /* init_random_seed() is a fix for faulty test_agent script 
- * as per blackboard post byJames Alan NGUYEN
- Test-script-proof solution
+ * as per blackboard post by James Alan NGUYEN
+ * titled Test-script-proof solution
  */
 void init_random_seed()
 {
@@ -63,31 +81,35 @@ double agent_s3406031(Game_state *current_state, int player, int x, int y)
         
         /* create a "forced win" checker that uses forced play */
         
-        /* random is included for tie breaking*/
-        score += 0.01 * jnu_get_random_double();
         
-        score += .15 * jnu_heuristic_claim_center(current_state, player, x ,y);
+        /* random is included for tie breaking*/
+        score += 0.01 * JNU_get_random_double();
+        
+        score += .15 * JNU_heuristic_claim_center(current_state, player, x ,y);
+        /* spots part of alot of lines is better than spots part of few */
+        
         /*almost complete player lines are good */
-        score += .1 * jnu_heuristic_lines(current_state, player, 1);
-        score += .15 * jnu_heuristic_lines(current_state, player, 2);
-        score += .6 * jnu_heuristic_lines(current_state, player, 3);
+        score += .1 * JNU_heuristic_lines(current_state, player, 1);
+        score += .15 * JNU_heuristic_lines(current_state, player, 2);
+        score += .6 * JNU_heuristic_lines(current_state, player, 3);
         
         /* playable almost wins  are even better */
-        /* score += .1 * jnu_heuristic_playable_threats(current_state, player, 3);*/
+        /* score += .1 * JNU_heuristic_playable_threats(current_state, player, 3);*/
         
         /*almost complete enemy lines are bad */
-        /*score += -.1 * jnu_heuristic_lines(current_state, other(player), 2);*/
-         score += -.1 * jnu_heuristic_lines(current_state, other(player), 3);
+        /*score += -.1 * JNU_heuristic_lines(current_state, other(player), 2);*/
+         score += -.1 * JNU_heuristic_lines(current_state, other(player), 3);
          /* playable almost complete enemy lines are very bad */
-        /*score += -.1 * jnu_heuristic_playable_threats(current_state, other(player), 2); */
-        score += -.9 * jnu_heuristic_playable_threats(current_state, other(player), 3);
+        /*score += -.1 * JNU_heuristic_playable_threats(current_state, other(player), 2); */
+        score += -.9 * JNU_heuristic_playable_threats(current_state, other(player), 3);
         /* dont create threats */
-        /* score += -.9 * jnu_heuristic_enemy_threat_created(current_state, player, x ,y); */
+        /* score += -.9 * JNU_heuristic_enemy_threat_created(current_state, player, x ,y); */
         
     }
     return score;
 }
-double jnu_heuristic_claim_center(Game_state *current_state, int player, int x, int y)
+
+double JNU_heuristic_claim_center(Game_state *current_state, int player, int x, int y)
 {
     double score = 0;
     if(current_state->board[3][0] == player)
@@ -109,7 +131,7 @@ double jnu_heuristic_claim_center(Game_state *current_state, int player, int x, 
     }
     return score;
 }
-double jnu_heuristic_defense(Game_state *current_state, int player, int x, int y)
+double JNU_heuristic_defense(Game_state *current_state, int player, int x, int y)
 {
     double score = 0;
     int *list_of_lines;
@@ -128,11 +150,11 @@ double jnu_heuristic_defense(Game_state *current_state, int player, int x, int y
     return score/(double)i;
 }
 
-double jnu_heuristic_lines(Game_state *current_state, int player, int chip_count)
+double JNU_heuristic_lines(Game_state *current_state, int player, int chip_count)
 {
     int i;
     int lines = 0;
-    int possible = jnu_get_total_lines(current_state);
+    int possible = JNU_get_total_lines(current_state);
     int enemy = other(player);
     for(i =0;i<possible;i++)
     {
@@ -146,7 +168,7 @@ double jnu_heuristic_lines(Game_state *current_state, int player, int chip_count
     
 }
 
-double jnu_heuristic_enemy_threat_created(Game_state *current_state, int player, int x, int y)
+double JNU_heuristic_enemy_threat_created(Game_state *current_state, int player, int x, int y)
 {
     double score = 0;
     int *list_of_lines;
@@ -171,9 +193,9 @@ double jnu_heuristic_enemy_threat_created(Game_state *current_state, int player,
     return score;
 }
 
-double jnu_heuristic_playable_threats(Game_state *current_state, int player, int chip_count)
+double JNU_heuristic_playable_threats(Game_state *current_state, int player, int chip_count)
 {
-    int threats = jnu_count_playable_threats(current_state, player, chip_count);
+    int threats = JNU_count_playable_threats(current_state, player, chip_count);
     if(threats == 1)
     {
         return 0.5;
@@ -185,8 +207,21 @@ double jnu_heuristic_playable_threats(Game_state *current_state, int player, int
     }
 }
 
+/*
+JNU_get_threats(Game_state *current_state, int player, int x, int y)
+{
+    
+}
+
+
+int JNU_player_has_zugzwang(Game_state *current_state, int player)
+{
+    
+ }
+ */
+
 /* playable threats are lines for a player that can be completed next turn */
-int jnu_count_playable_threats(Game_state *current_state, int player, int chip_count)
+int JNU_count_playable_threats(Game_state *current_state, int player, int chip_count)
 {
     int threats = 0;
     int i,k;
@@ -227,15 +262,23 @@ int jnu_count_playable_threats(Game_state *current_state, int player, int chip_c
     return threats;
 }
 
+/*
+ * this creates an array of the lines of 3 chip threats
+ * this fucntion excludes useless threats that are not playable sincefor
+ */
+int JNU_get_threats(Game_state *current_state, int player, int chip_count)
+{
+    
+}
 
-int jnu_get_total_lines(Game_state *current_state)
+int JNU_get_total_lines(Game_state *current_state)
 {
     return num_of_win_places(current_state->width,
                       current_state->height,
                       current_state->num_to_connect);
 }
 
-double jnu_get_random_double()
+double JNU_get_random_double()
 {
     return (double) rand() / (RAND_MAX / 2) - 1;
 }

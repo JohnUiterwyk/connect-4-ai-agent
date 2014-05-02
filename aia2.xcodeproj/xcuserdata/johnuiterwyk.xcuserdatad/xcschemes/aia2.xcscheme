@@ -49,7 +49,7 @@
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <PathRunnable
-         FilePath = "/Users/johnuiterwyk/Google Drive/Rmit/ai/assigment 2/aia2/aia2/c4">
+         FilePath = "/Users/johnuiterwyk/Git/rmit/rmit-ai-a2/aia2/c4">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -60,6 +60,12 @@
             ReferencedContainer = "container:aia2.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "s3406031 simple --fast"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
