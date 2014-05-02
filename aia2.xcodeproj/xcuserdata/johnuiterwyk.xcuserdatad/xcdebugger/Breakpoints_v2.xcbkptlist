@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "aia2/agent_s3406031.c"
-            timestampString = "420734869.425981"
+            timestampString = "420751042.273275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "JNU_heuristic_defense()"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "JNU_get_threats()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "aia2/agent_s3406031.c"
-            timestampString = "420734869.425981"
+            timestampString = "420751042.273275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "agent_s3406031()"
             landmarkType = "7">
          </BreakpointContent>
