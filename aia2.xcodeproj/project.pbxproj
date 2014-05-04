@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		512CB6E51910D312002C9F39 /* agent_s3406031.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = agent_s3406031.c; sourceTree = "<group>"; };
+		517648F51915ED0A00B1B44E /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		51FF3A3919079FCB00A0154C /* agent_samples.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = agent_samples.c; sourceTree = "<group>"; };
 		51FF3A3A19079FCB00A0154C /* c4_functions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = c4_functions.c; sourceTree = "<group>"; };
 		51FF3A3B19079FCB00A0154C /* c4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = c4.c; sourceTree = "<group>"; };
@@ -46,6 +47,7 @@
 				51FF3A3F19079FCB00A0154C /* game.c */,
 				51FF3A4019079FCB00A0154C /* Makefile */,
 				512CB6E51910D312002C9F39 /* agent_s3406031.c */,
+				517648F51915ED0A00B1B44E /* readme.txt */,
 			);
 			path = aia2;
 			sourceTree = "<group>";

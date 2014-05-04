@@ -1,15 +1,22 @@
+/***************************************************************************
+ **                                                                        **
+ **                          Connect-4 Agent                               **
+ **                          RMIT AI Assignment 2                          **
+ **                                                                        **
+ **                          John ;                                 **
+ **                          s3406031                                      **
+ **                                                                        **
+ **                                                                        **
+ ****************************************************************************
+ ***************************************************************************/
+
+
 #include <stdlib.h>
+#include <sys/time.h>
 #include "c4.h"
 
-#include <sys/time.h>
 
-
-/* Connect 4 agent by John N. Uiterwyk
- * all functions and types are prefaced by JNU to avoid name clashing
- * s3406031
- *
- */
-
+/* JNU_EVEN and JNU_ODD  defines used in checking if a row is even/odd */
 #ifndef JNU_ODD
 #define JNU_ODD 0
 #endif
@@ -18,6 +25,7 @@
 #define JNU_EVEN 1
 #endif
 
+/* JNU_Threat is a struct that stores info about a threat on the board */
 typedef struct {
     int x;
     int y;
@@ -56,6 +64,9 @@ int     JNU_smart_win_checker(Game_state *current_state,
                           int player,
                           Player_Threats player_threats[2]);
 
+int JNU_check_forcable_win(Game_state *current_state,
+                            Player_Threats player_threats[2]);
+
 int     JNU_total_lines;
 
 double  JNU_get_random_double();
@@ -71,94 +82,6 @@ void init_random_seed()
     srand(tv.tv_usec);
 }
 
-
-double JNU_heuristic_zugzwang(Game_state *current_state,
-                              int player,
-                              Player_Threats players[2])
-{
-    int i,j;
-    double score = 0;
-    int possible_winner = C4_NONE;
-
-    JNU_Threat * p0_threat;
-    JNU_Threat * p1_threat;
-
-    int p0_solid_odd_threats = 0;
-    int p1_even_threat_below = 0;
-    int p1_odd_other_threats = 0;
-    
-    /* if player 0 has an odd threat and no even enemy threats below
-     * and no enemy odd other columns
-     * this is due to there always being an even number of moves left for 
-     * player 0 (i.e. before first move there are 42 squares,
-     * then 40 after enemy move)
-     */
-    
-    /* first find an odd threat with no even enemy threats below */
-    for(i=0;i<players[0].total_threat_count;i++)
-    {
-        p0_threat = &players[0].threats[i];
-        p1_even_threat_below = 0;
-        p1_odd_other_threats = 0;
-        if(p0_threat->even_odd == JNU_ODD)
-        {
-            
-            for(j=0;j<players[1].total_threat_count;j++)
-            {
-                p1_threat = &players[1].threats[j];
-                /* if same column and below */
-                if(p0_threat->x == p1_threat->x
-                   && p0_threat->y > p1_threat->y
-                   && p1_threat->even_odd == JNU_EVEN)
-                {
-                    p1_even_threat_below++;
-                }else if(p0_threat->x != p1_threat->x
-                         && p1_threat->even_odd == JNU_ODD)
-                {
-                    p1_odd_other_threats++;
-                }
-                
-            }
-            if(p1_even_threat_below == 0)
-            {
-                p0_solid_odd_threats++;
-            }
-            if(p1_even_threat_below == 0 && p1_odd_other_threats ==0)
-            {
-                possible_winner = 0;
-                break;
-            }
-        }
-    }
-    
-    /* if player 0 has more odd threats (with no even enemy below)
-     * than player 1's total odd threats, and player 1 has no even threats
-     */
-    if(possible_winner == C4_NONE
-       && p0_solid_odd_threats > players[1].odd_threat_count
-       && players[1].even_threat_count == 0)
-    {
-        possible_winner = 0;
-    }
-    
-    /* other wise, if player 1 has any even threats */
-    if(possible_winner == C4_NONE && players[1].even_threat_count > 0)
-    {
-        possible_winner = 1;
-    }
-    if(possible_winner == player)
-    {
-        return 1;
-    }else if(possible_winner == other(player))
-    {
-        return -1;
-    }else
-    {
-        return 0;
-    }
-    
-       
-}
 double agent_s3406031(Game_state *current_state, int player, int x, int y)
 {
     double score = 0;
@@ -177,8 +100,9 @@ double agent_s3406031(Game_state *current_state, int player, int x, int y)
                                         current_state->height,
                                         current_state->num_to_connect);
     
+    /* check to see if we can see a garunteed win ahead */
     winner = JNU_smart_win_checker(current_state,player,player_threats);
-
+    
     /* reset random seed */
     init_random_seed();
     
@@ -193,9 +117,6 @@ double agent_s3406031(Game_state *current_state, int player, int x, int y)
     else
     {
         
-        /* random is included for tie breaking*/
-        score += 0.0001 * JNU_get_random_double();
-        
         /* more lines has a little value, helps claim the centre early on */
         score += .05 * JNU_heuristic_claim_lines(current_state, player);
         
@@ -208,9 +129,21 @@ double agent_s3406031(Game_state *current_state, int player, int x, int y)
         /*  having enemy unblocked lines of length 3 is bad */
         score += -.1 * JNU_heuristic_unblocked_lines(current_state, enemy, 3);
         
-        /* TODO: check if its possible to force a win using Zugzwang
-        score +=.5 * JNU_heuristic_zugzwang(current_state,player,player_threats);
-         */
+        /* player 0 is more likely to finish odd threats, player 1 even. */
+        if(player == 0)
+        {
+            score += .1 * player_threats[0].odd_threat_count / JNU_total_lines;
+        }else if(player == 1)
+        {
+            score += .1 * player_threats[1].even_threat_count / JNU_total_lines;
+            
+        }
+        
+        
+        
+        /* random is included for tie breaking*/
+        score += 0.0001 * JNU_get_random_double();
+        
     }
     
     /* free the threat arrays */
@@ -220,10 +153,10 @@ double agent_s3406031(Game_state *current_state, int player, int x, int y)
 }
 
 
+
 /* claim lines values having a chip in as many lines as possible 
  * this is used early on to increase the possibilities for creating 
- * winning lines
- * it also reduces the number of options for the enemy
+ * winning lines. It also reduces the number of options for the enemy;
  * this has the effect of prefering center squares over outer squares
  */
 double JNU_heuristic_claim_lines(Game_state *current_state, int player)
@@ -319,9 +252,11 @@ void JNU_get_threats(Game_state *current_state,int player, Player_Threats * play
                             threat->is_playable = FALSE;
                         }
                         total_threat_count++;
+                        break;
                     }
                     k++;
                     line_num = list_of_lines[k];
+                    
                 }
                 
                 
@@ -335,7 +270,9 @@ void JNU_get_threats(Game_state *current_state,int player, Player_Threats * play
     player_threats->playable_threat_count = playable_threat_count;
 }
 
-
+/* JNU_smart_win_checker looks for game states that are certain to 
+ * lead to a win for one player or the other
+ */
 
 int JNU_smart_win_checker(Game_state *current_state,
                           int player,
@@ -344,9 +281,10 @@ int JNU_smart_win_checker(Game_state *current_state,
     /* first check for 4 in a row */
     int winner = game_won(current_state);
     int enemy = other(player);
-    if(winner != player && winner != enemy)
+    
+    if(winner == C4_NONE)
     {
-        /*check if the enemy has a playable win */
+        /*check if the enemy has a playable win next turn */
         if(player_threats[enemy].playable_threat_count >0)
         {
             winner = enemy;
@@ -361,10 +299,68 @@ int JNU_smart_win_checker(Game_state *current_state,
         
         
     }
+    if(winner == C4_NONE)
+    {
+        winner =JNU_check_forcable_win(current_state,player_threats);
+    }
+    /* check for forceable win */
     return winner;
     
     
 }
+
+/* JNU_check_forcable_win looks for wins that can be forced near the end
+ * of the game. This could be expanded upon to further use forced play.
+ */
+int JNU_check_forcable_win(Game_state *current_state,
+                            Player_Threats player_threats[2])
+{
+    int winner;
+    int * empty_squares;
+    int full_columns = 0;
+    int i,j;
+    
+    winner = C4_NONE;
+    
+    empty_squares = (int *)emalloc(current_state->width * sizeof(int));
+    /* count up empty squares in each column */
+    for(i=0;i<current_state->width;i++)
+    {
+        for(j=0;j<current_state->height;j++)
+        {
+            if(current_state->board[i][j]== C4_NONE)
+            {
+                empty_squares[i]++;
+            }
+        }
+        if(empty_squares[i] == 0)
+        {
+            full_columns++;
+        }
+    }
+    
+    /* if exactly one column is not empty
+     * player 0 will finish all odd threats
+     * player 1 will finish all even threats
+     */
+    if(full_columns == current_state->width-1)
+    {
+        if(player_threats[0].odd_threat_count > 0
+           && player_threats[1].total_threat_count == 0)
+        {
+            winner = 0;
+        }
+        if(player_threats[1].even_threat_count > 0
+           && player_threats[0].total_threat_count == 0)
+        {
+            winner = 1;
+        }
+    }
+    free(empty_squares);
+    return winner;
+}
+
+/* get a random number between 1 and -1 */
 double JNU_get_random_double()
 {
     return (double) rand() / (RAND_MAX / 2) - 1;
